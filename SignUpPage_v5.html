@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+<link rel="stylesheet" type = "text/css" href ="stylesheet.css">
+
+	<title>Sign Up!</title>
+<script>
+function showValid(str, a) {
+if (str.length == 0) {
+	if (a == '1'){
+		document.getElementById("username").innerHTML = "";
+	}
+    else{
+    	document.getElementById("email").innerHTML = "";
+    }
+    return;
+} else{
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200){
+        	if (a == '1'){
+				document.getElementById("username").innerHTML = this.responseText;
+			}
+    		else if(a == '2'){
+    			document.getElementById("email").innerHTML = this.responseText;
+    		}
+        }
+    }
+}
+        xmlhttp.open("GET", "CheckCredentials.php?q=" + str, true);
+        xmlhttp.send();
+        //this script is used to auto suggest names in a database, in the gethint.php script array, and is intended to be used to check email legitimacy when you log in. This is just to demonstrate that it works
+}
+function ConfirmE(){
+	var Em = document.getElementById('EM').value;
+	if(Em.value != document.getElementById('CEM').value){
+		document.getElementById("conemail").innerHTML = "Your emails do not match";
+	} else if(Em.value = document.getElementById('CEM').value){
+		document.getElementById("conemail").innerHTML = "YES";
+	} else{
+		document.getElementById("conemail").innerHTML = "";
+	}
+
+}
+
+function disableElement() {
+    document.getElementById("sub").disabled = true;
+}
+
+</script>
+</head>
+<div class = "TopButtons">
+<button type="button"> <a href="\FrontPage.html"> Home page</a></button>
+<button type="button"> <a href="SignInPage.html">Sign in</a></button>
+</div>
+<h1 id ="front text"> Sign up page </h1> 
+<body>
+<div class= "Sign up Forum">
+
+<form action="ValidateSignUp.php" method="post">
+<!-- This form action has been implemented with the htmlspecialchars action which prevents attackers from XSS the php code making the program more robust for live use -->
+	First name: <br>
+	<input type="text" name='firstname'><br>
+
+	Last name:<br>
+	<input type="text" name='lastname'><br>
+
+	Username:<span id="username"></span><br>
+	<input type="text" name ='username' onkeyup="showValid(this.value,'1')"><br>
+
+	Email address:<span id="email"></span><br>
+	<input type="text" name='email' id ="EM" onkeyup="showValid(this.value, '2')"><br>
+
+	Confirm Email address:<span id="conemail"></span><br> 
+	<input type="text" name='confirme' id ="CEM" onkeyup =""><br>
+	Password: <br>
+	<input type="password" name='password'><br>
+
+	Confirm Password:<br>
+	<input type="password" name='confirmp'><br>
+	<br>
+
+	<input id="sub" type ="submit">
+
+</form>
+<!-- The Sign up page's basic criteria is met with the buttons to allow for direction between homepage, sign in and sign up page, but is not exactly complete in this stage of development TIMESTAMP 09/09/17-->
+</div>
+</body>
+</html>
